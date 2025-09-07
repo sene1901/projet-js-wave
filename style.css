@@ -1,0 +1,37 @@
+ body {
+      background-color: #ebecea;
+    }
+    header{
+      background-color:#4749cd;
+    }
+    .balance {
+      color: white;
+    }
+    .eye {
+       cursor: pointer;
+      
+      font-size: 20px;
+    }
+    .bouton{
+      width:300px;
+      height: 150px; 
+      background-color: white !important;
+    }
+    .card-qr {
+      background: white;
+      border-radius: 12px;
+      text-align: center;
+      margin: 20px auto;
+      width: 260px;
+      height: 150px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    #qrcode {
+      background: white;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .cardAction{
+        margin-top: -20px;
+    }
