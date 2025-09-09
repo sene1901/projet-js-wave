@@ -11,12 +11,11 @@ function casserValeur() {
   eyeIcon.classList.toggle("bi-eye-slash");
 }
 
-
     // Génération du QR Code
     new QRCode(document.getElementById("qrcode"), {
       text: "https://www.wave.com/fr/", // mets ton lien/ID ici
       width: 128,
-      height: 128,
+      height: 125,
       colorDark : "#000000",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
@@ -55,7 +54,7 @@ function ajouterHistorique(type, montant) {
   afficherOperation(operation);
 }
 
-// Afficher une opération dans le tableau
+// Afficher une opération dans le tableau historique
 function afficherOperation(op) {
   const tbody = document.getElementById("historique");
   const tr = document.createElement("tr");
@@ -69,6 +68,43 @@ function afficherOperation(op) {
   `;
   tbody.prepend(tr);
 }
+  
+// Afficher une liste d'opérations (historique complet ou filtré)
+function afficherHistoriqueComplet(liste = historique) {
+  const tbody = document.getElementById("historique");
+  tbody.innerHTML = "";
+  liste.forEach(op => {
+    const tr = document.createElement("tr");
+    let couleur = "text-dark";
+    if (op.type === "Dépôt") couleur = "text-success";
+    if (op.type === "Retrait" || op.type === "Transfert") couleur = "text-danger";
+
+    tr.innerHTML = `
+      <td>${op.type} (${op.date})</td>
+      <td class="${couleur}">${op.type === "Dépôt" ? "+" : "-"}${op.montant.toLocaleString("fr-FR")} F</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+// --- Barre de recherche ---
+document.getElementById("rechercheHistorique").addEventListener("keyup", () => {
+  let valeur = document.getElementById("rechercheHistorique").value.trim().toLowerCase();
+
+  if (!valeur) {
+    afficherHistoriqueComplet();
+    return;
+  }
+
+  let resultat = historique.filter(op =>
+    op.type.toLowerCase().includes(valeur) ||
+    op.date.toLowerCase().includes(valeur) ||
+    op.montant.toString().includes(valeur)
+  );
+
+  afficherHistoriqueComplet(resultat);
+});
+
+
 
  
   // Gestion transfert

@@ -13,7 +13,7 @@
       font-size: 20px;
     }
     .bouton{
-      width:300px;
+      width:250px;
       height: 150px; 
       background-color: white !important;
     }
@@ -29,9 +29,13 @@
     #qrcode {
       background: white;
       display: inline-block;
+      margin-top: 3px;
       padding: 10px;
       border-radius: 10px;
     }
     .cardAction{
         margin-top: -20px;
+    }
+    .input-recheche{
+      width: 250px;
     }
