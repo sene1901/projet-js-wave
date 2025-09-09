@@ -21,17 +21,19 @@ function casserValeur() {
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H
     });
+    //Charger le solde depuis localStorage
+let solde = localStorage.getItem("solde");
+solde = solde ? parseFloat(solde) : 2500000;
 
-    let solde = 120000; // solde initial (exemple)
 // mise en jour du solde restant apres (transfert,depot,retrait)
   function updateAffichageSolde() {
-    document.getElementById("balance").textContent =
-      solde.toLocaleString("fr-FR") + " F";
+   document.getElementById("balance").textContent =
+    solde.toLocaleString("fr-FR") + " F";
+  localStorage.setItem("solde", solde); // sauvegarde après chaque update
   }
   //  pour l’historique des 3 actions (transfert,depot,retrait)
 // --- HISTORIQUE --- //
 let historique = [];
-
 // Charger l'historique depuis localStorage
 function chargerHistorique() {
   let data = localStorage.getItem("historique");
