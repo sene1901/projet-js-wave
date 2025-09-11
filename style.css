@@ -13,8 +13,8 @@
       font-size: 20px;
     }
     .bouton{
-      width:250px;
-      height: 150px; 
+      width:150px;
+      height: 100px;  
       background-color: white !important;
     }
     .card-qr {
@@ -29,8 +29,8 @@
     #qrcode {
       background: white;
       display: inline-block;
-      margin-top: 3px;
-      padding: 10px;
+      margin-top: 4px;
+      padding: 5px;
       border-radius: 10px;
     }
     .cardAction{

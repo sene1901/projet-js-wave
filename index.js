@@ -3,7 +3,7 @@
 function casserValeur() {
   const valeurAffich = document.getElementById("balance");
   valeurVisible  = !valeurVisible ;
-  valeurAffich.textContent = valeurVisible ? "120.000 F" : "••••••";
+  valeurAffich.textContent = valeurVisible ? solde : "••••••";
 
   //  changer l’icône de l’œil
   const eyeIcon = document.querySelector(".eye i");
@@ -63,7 +63,7 @@ function afficherOperation(op) {
   if (op.type === "Retrait" || op.type === "Transfert") couleur = "text-danger";
 
   tr.innerHTML = `
-    <td>${op.type} (${op.date})</td>
+    <td>${op.type} <br>${op.date}</td>
     <td class="${couleur}">${op.type === "Dépôt" ? "+" : "-"}${op.montant.toLocaleString("fr-FR")} F</td>
   `;
   tbody.prepend(tr);
@@ -71,7 +71,7 @@ function afficherOperation(op) {
   
 // Afficher une liste d'opérations (historique complet ou filtré)
 function afficherHistoriqueComplet(liste = historique) {
-  const tbody = document.getElementById("historique");
+  const tbody = document.getElementById("historique");     
   tbody.innerHTML = "";
   liste.forEach(op => {
     const tr = document.createElement("tr");
@@ -80,7 +80,8 @@ function afficherHistoriqueComplet(liste = historique) {
     if (op.type === "Retrait" || op.type === "Transfert") couleur = "text-danger";
 
     tr.innerHTML = `
-      <td>${op.type} (${op.date})</td>
+      <td>${op.type} (${op.date})</td><br>
+
       <td class="${couleur}">${op.type === "Dépôt" ? "+" : "-"}${op.montant.toLocaleString("fr-FR")} F</td>
     `;
     tbody.appendChild(tr);
@@ -108,39 +109,54 @@ document.getElementById("rechercheHistorique").addEventListener("keyup", () => {
 
  
   // Gestion transfert
-  document.getElementById("btnEnvoyer").addEventListener("click", () => {
+  const form = document.getElementById("formTransfert");
+  const inputMontant = document.getElementById("montantTransfert");
+  const inputFrais = document.getElementById("frais");
+
+  // Calcul des frais en temps réel quand on tape le montant
+  inputMontant.addEventListener("input", () => {
+    let montant = parseFloat(inputMontant.value);
+    if (!isNaN(montant) && montant > 0) {
+      let frais = montant * 0.01;
+      inputFrais.value = frais.toFixed(2) + " FCFA";
+    } else {
+      inputFrais.value = "";
+    }
+  });
+
+  document.getElementById("btnEnvoyer").addEventListener("click", (e) => {
+    e.preventDefault(); // éviter le rechargement de la page
+    
     let destinataire = document.getElementById("destinataire").value.trim();
-    let montant = parseFloat(document.getElementById("montantTransfert").value);
-    // controle de saisie
+    let montant = parseFloat(inputMontant.value);
+    let frais = montant * 0.01;
+    let total = montant + frais;
+
+    // Contrôle de saisie
     if (!destinataire || isNaN(montant) || montant <= 0) {
       alert("Veuillez saisir un destinataire et un montant valide !");
       return;
     }
 
-    // Calcul frais
-    let frais = montant * 0.02;
-    let total = montant + frais;
-
     if (total > solde) {
-      alert("Solde insuffisant pour effectuer ce transfert !");
+      // Remettre le formulaire à zéro au lieu de alert
+      form.reset();
+      inputFrais.value = "";
       return;
     }
 
-    // Mise à jour du solde
+    // Débit du solde
     solde -= total;
-    updateAffichageSolde();
-    ajouterHistorique("Transfert", montant);
-    alert(` Transfert de ${montant} F à ${destinataire} effectué.\nFrais : ${frais.toFixed(0)} F`);
+    alert(`Transfert de ${montant} FCFA à ${destinataire} effectué avec succès !\nFrais: ${frais} FCFA\nNouveau solde: ${solde} FCFA`);
 
-    // Fermer la modale proprement
+    // Fermer la modale
     let modal = bootstrap.Modal.getInstance(document.getElementById("modalTransfert"));
     modal.hide();
 
-    // vider les champs apres saisie
-    document.getElementById("destinataire").value = "";
-    document.getElementById("montantTransfert").value = "";
+    // Reset du formulaire après succès
+    form.reset();
+    inputFrais.value = "";
   });
-
   // Gestion Dépôt
 document.getElementById("btnDeposer").addEventListener("click", () => {
   let montant = parseFloat(document.getElementById("montantDepot").value);
