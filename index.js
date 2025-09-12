@@ -10,16 +10,6 @@ function casserValeur() {
   eyeIcon.classList.toggle("bi-eye");
   eyeIcon.classList.toggle("bi-eye-slash");
 }
-
-    // Génération du QR Code
-    new QRCode(document.getElementById("qrcode"), {
-      text: "https://www.wave.com/fr/", // mets ton lien/ID ici
-      width: 128,
-      height: 125,
-      colorDark : "#000000",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
     //Charger le solde depuis localStorage
 let solde = localStorage.getItem("solde");
 solde = solde ? parseFloat(solde) : 2500000;
@@ -30,6 +20,20 @@ solde = solde ? parseFloat(solde) : 2500000;
     solde.toLocaleString("fr-FR") + " F";
   localStorage.setItem("solde", solde); // sauvegarde après chaque update
   }
+    // Génération du QR Code
+    new QRCode(document.getElementById("qrcode"), {
+      text: "https://www.wave.com/fr/", // mets ton lien/ID ici
+      width: 128,
+      height: 125,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+
+
+
+
+
   //  pour l’historique des 3 actions (transfert,depot,retrait)
 // --- HISTORIQUE --- //
 let historique = [];
@@ -139,7 +143,6 @@ document.getElementById("rechercheHistorique").addEventListener("keyup", () => {
     }
 
     if (total > solde) {
-      // Remettre le formulaire à zéro au lieu de alert
       form.reset();
       inputFrais.value = "";
       return;
