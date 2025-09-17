@@ -84,7 +84,7 @@ function afficherHistoriqueComplet(liste = historique) {
   if (liste.length > limite) {
     voirPlus.style.display = "block";
   } else {
-    voirPlus.style.display = "none";
+    voirPlus.style.display = "";
   }
 }
 
