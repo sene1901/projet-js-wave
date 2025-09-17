@@ -160,7 +160,8 @@ chargerHistorique();
     // Débit du solde
     solde -= total;
     alert(`Transfert de ${montant} FCFA à ${destinataire} effectué avec succès !\nFrais: ${frais} FCFA\nNouveau solde: ${solde} FCFA`);
-
+    updateAffichageSolde();
+  ajouterHistorique("Transfert", montant);
     // Fermer la modale
     let modal = bootstrap.Modal.getInstance(document.getElementById("modalTransfert"));
     modal.hide();
