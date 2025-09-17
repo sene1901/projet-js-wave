@@ -37,13 +37,15 @@ solde = solde ? parseFloat(solde) : 2500000;
   //  pour l’historique des 3 actions (transfert,depot,retrait)
 // --- HISTORIQUE --- //
 let historique = [];
+let limite = 5; // nombre de résultats affichés initialement
+
 // Charger l'historique depuis localStorage
 function chargerHistorique() {
   let data = localStorage.getItem("historique");
   if (data) {
     historique = JSON.parse(data);
-    historique.forEach(op => afficherOperation(op));
   }
+  afficherHistoriqueComplet();
 }
 
 // Ajouter une opération à l'historique (page + localStorage)
@@ -55,47 +57,43 @@ function ajouterHistorique(type, montant) {
   };
   historique.unshift(operation); // ajouter en début
   localStorage.setItem("historique", JSON.stringify(historique));
-  afficherOperation(operation);
+  afficherHistoriqueComplet();
 }
 
-// Afficher une opération dans le tableau historique
-function afficherOperation(op) {
-  const tbody = document.getElementById("historique");
-  const tr = document.createElement("tr");
-  let couleur = "text-dark";
-  if (op.type === "Dépôt") couleur = "text-success";
-  if (op.type === "Retrait" || op.type === "Transfert") couleur = "text-danger";
-
-  tr.innerHTML = `
-    <td>${op.type} <br>${op.date}</td>
-    <td class="${couleur}">${op.type === "Dépôt" ? "+" : "-"}${op.montant.toLocaleString("fr-FR")} F</td>
-  `;
-  tbody.prepend(tr);
-}
-  
-// Afficher une liste d'opérations (historique complet ou filtré)
+// Afficher l'historique complet ou filtré avec limitation
 function afficherHistoriqueComplet(liste = historique) {
-  const tbody = document.getElementById("historique");     
+  const tbody = document.getElementById("historique");
   tbody.innerHTML = "";
-  liste.forEach(op => {
+
+  let afficheListe = liste.slice(0, limite); // Limiter l'affichage
+  afficheListe.forEach(op => {
     const tr = document.createElement("tr");
     let couleur = "text-dark";
     if (op.type === "Dépôt") couleur = "text-success";
     if (op.type === "Retrait" || op.type === "Transfert") couleur = "text-danger";
 
     tr.innerHTML = `
-      <td>${op.type} (${op.date})</td><br>
-
+      <td>${op.type} (${op.date})</td>
       <td class="${couleur}">${op.type === "Dépôt" ? "+" : "-"}${op.montant.toLocaleString("fr-FR")} F</td>
     `;
     tbody.appendChild(tr);
   });
+
+  // Gérer le bouton Voir plus
+  const voirPlus = document.getElementById("voirPlus");
+  if (liste.length > limite) {
+    voirPlus.style.display = "block";
+  } else {
+    voirPlus.style.display = "none";
+  }
 }
-// --- Barre de recherche ---
+
+// Filtrer l'historique en temps réel
 document.getElementById("rechercheHistorique").addEventListener("keyup", () => {
   let valeur = document.getElementById("rechercheHistorique").value.trim().toLowerCase();
 
   if (!valeur) {
+    limite = 5; // réinitialiser limite
     afficherHistoriqueComplet();
     return;
   }
@@ -106,8 +104,19 @@ document.getElementById("rechercheHistorique").addEventListener("keyup", () => {
     op.montant.toString().includes(valeur)
   );
 
+  limite = 5; // réinitialiser limite pour la recherche
   afficherHistoriqueComplet(resultat);
 });
+
+// Bouton Voir plus pour charger +10 résultats
+document.getElementById("voirPlus").addEventListener("click", () => {
+  limite += 5;
+  afficherHistoriqueComplet();
+});
+
+// Charger l'historique au démarrage
+chargerHistorique();
+
 
 
 

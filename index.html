@@ -11,8 +11,8 @@
 <body>
     
   <!-- Header -->
-   <header class="py-2" >
-    <nav class="navbar navbar-dark" >
+   <header class="py-3" >
+    <nav class="navbar navbar-dark " >
         <div class="container">
             <i class="bi bi-gear-fill text-white fs-5"></i><!-- Icône paramètres -->
         </div>
@@ -36,12 +36,12 @@
 </header>
   <!-- les actions -->
   <div class="container cardAction">
-    <div class="row justify-content-center">
-      <div class="col-md-4 bouton shadow d-flex flex-column justify-content-center align-items-center">
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4 me-2 bouton shadow d-flex flex-column justify-content-center align-items-center">
         <i class="bi bi-person-fill icon-tranfert text-primary fs-2 mb-0"></i>
         <button class="btn text-primary fs-3    " data-bs-toggle="modal" data-bs-target="#modalTransfert">Transfert</button>
       </div>
-      <div class="col-md-4 bouton shadow  d-flex flex-column justify-content-center align-items-center">
+      <div class="col-md-4 me-2 bouton shadow  d-flex flex-column justify-content-center align-items-center">
         <i class="bi bi-collection icon-tranfert text-success fs-2 mb-0"></i>
         <button class="btn text-success  fs-3 " data-bs-toggle="modal" data-bs-target="#modalDepot">Dépôt</button>
      </div>
@@ -128,21 +128,46 @@
 </div>
 
  <!-- Transactions  historique-->
-   <div class="container justify-content-center py-4">
-    <div class="row justify-content-center "> <div class="col-md-8 shadow">
-  <input type="text" id="rechercheHistorique" placeholder="Rechercher une opération..." class="form-control input-recheche  ">
-  <table class="table table-striped mt-2">
+  <div class="container  py-4">
+     <div class=" card  shadow" style="width: 650px; margin: auto;"> 
+    <div class="input-group mt-3 d-flex justify-content-center" style="width: 300px; margin: auto;">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" id="rechercheHistorique" class="form-control" placeholder="Rechercher...">
+    </div>
+
+<!-- Tableau historique -->
+<table class="table table-striped mt-3">
   <thead>
-    <tr>
-      <th>Opération</th>
-      <th>Montant</th>
-    </tr>
+    
   </thead>
-  <tbody id="historique" class="">
-    <!-- Les opérations seront ajoutées ici -->
-  </tbody>
+  <tbody id="historique" ></tbody>
 </table>
-</div></div>
+
+<!-- Bouton Voir plus -->
+ <button id="voirPlus" class="btn btn-link" style="display:none;">Voir plus</button>
+
+</div>
+
+    <!-- <div class="row justify-content-center align-items-center"> 
+      <div class="col-md-8 shadow">
+        <div class="input-group mt-3">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" id="rechercheHistorique" class="form-control" placeholder="Rechercher...">
+        </div>
+        <table class="table table-striped mt-2">
+        <thead>
+          <tr>
+            <th>Opération</th>
+            <th>Montant</th>
+          </tr>
+        </thead>
+        <tbody id="historique" class="">
+          Les opérations seront ajoutées ici -->
+        <!-- </tbody>
+      </table>
+        <button id="voirPlus" class="btn btn-link" style="display:none;">Voir plus</button>
+    </div>
+    </div>  -->
   </div>
 
   

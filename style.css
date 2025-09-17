@@ -16,6 +16,7 @@
       width:150px;
       height: 100px;  
       background-color: white !important;
+      margin-top: -2px;
     }
     .card-qr {
       background: rgb(29, 200, 255);
