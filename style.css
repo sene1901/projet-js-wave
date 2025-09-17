@@ -1,5 +1,5 @@
  body {
-      background-color: #ebecea;
+      background-color: white;
     }
     header{
       background-color:#4749cd;
@@ -30,7 +30,7 @@
     #qrcode {
       background: white;
       display: inline-block;
-      margin-top: 4px;
+      margin-top: 7px;
       padding: 5px;
       border-radius: 10px;
     }
